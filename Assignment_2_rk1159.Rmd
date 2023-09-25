@@ -1,0 +1,197 @@
+---
+title: "Assignment_2"
+author: Rohan Nitin Khandke
+output: html_document
+date: "09/24/2023"
+---
+
+```{r}
+library(readxl)
+Typical_Employee_Survey_Data <- read_excel("~/Downloads/Typical_Employee_Survey_Data.xlsx", 
+    col_names = FALSE)
+names(Typical_Employee_Survey_Data)
+
+emp_survey <- Typical_Employee_Survey_Data
+
+
+#Adding header row
+
+colnames(emp_survey) <- c("Current_Age", "Gender", "Job_Satis", "Imp_factors", "Exp_in_comp", 
+                         "Chances_of_promo", "Auth_decision", "Budget_decision", 
+                         "Proudness_to_work", "Likeliness_to_stay", "Reln_in_workplace")
+names(emp_survey)
+
+```
+
+
+```{r}
+
+
+# 5-point summary
+summary(emp_survey) 
+
+fivenum(emp_survey$Current_Age) #It gives min, 1st quartile, median, 3rd quartile, max
+fivenum(emp_survey$Gender)
+fivenum(emp_survey$Job_Satis)
+fivenum(emp_survey$Imp_factors)
+fivenum(emp_survey$Exp_in_comp)
+fivenum(emp_survey$Chances_of_promo)
+fivenum(emp_survey$Auth_decision)
+fivenum(emp_survey$Budget_decision)
+fivenum(emp_survey$Proudness_to_work)
+fivenum(emp_survey$Likeliness_to_stay)
+fivenum(emp_survey$Reln_in_workplace)
+```
+
+
+```{r}
+
+#Boxplot
+boxplot(emp_survey$Current_Age)
+
+boxplot(emp_survey$Gender)
+
+boxplot(emp_survey$Job_Satis)
+
+boxplot(emp_survey$Imp_factors)
+
+boxplot(emp_survey$Exp_in_comp)
+
+boxplot(emp_survey$Chances_of_promo)
+
+boxplot(emp_survey$Auth_decision)
+
+boxplot(emp_survey$Budget_decision)
+
+boxplot(emp_survey$Proudness_to_work)
+
+boxplot(emp_survey$Likeliness_to_stay)
+
+boxplot(emp_survey$Reln_in_workplace)
+
+```
+
+```{r}
+
+
+#Factoring
+emp_survey$Current_Age <- as.factor(emp_survey$Current_Age)
+class(emp_survey$Current_Age)
+str(emp_survey$Current_Age)
+
+class(emp_survey$Gender)
+emp_survey$Gender <- as.factor(emp_survey$Gender)
+class(emp_survey$Gender)
+
+class(emp_survey$Job_Satis)
+emp_survey$Job_Satis <- as.factor(emp_survey$Job_Satis)
+class(emp_survey$Job_Satis)
+
+class(emp_survey$Imp_factors)
+emp_survey$Imp_factors <- as.factor(emp_survey$Imp_factors)
+class(emp_survey$Imp_factors)
+
+class(emp_survey$Exp_in_comp)
+emp_survey$Exp_in_comp <- as.factor(emp_survey$Exp_in_comp)
+class(emp_survey$Exp_in_comp)
+
+class(emp_survey$Chances_of_promo)
+emp_survey$Chances_of_promo <- as.factor(emp_survey$Chances_of_promo)
+class(emp_survey$Chances_of_promo)
+
+class(emp_survey$Auth_decision)
+emp_survey$Auth_decision <- as.factor(emp_survey$Auth_decision)
+class(emp_survey$Auth_decision)
+
+class(emp_survey$Budget_decision)
+emp_survey$Budget_decision <- as.factor(emp_survey$Budget_decision)
+class(emp_survey$Budget_decision)
+
+class(emp_survey$Proudness_to_work)
+emp_survey$Proudness_to_work <- as.factor(emp_survey$Proudness_to_work)
+class(emp_survey$Proudness_to_work)
+
+class(emp_survey$Likeliness_to_stay)
+emp_survey$Likeliness_to_stay <- as.factor(emp_survey$Likeliness_to_stay)
+class(emp_survey$Likeliness_to_stay)
+
+class(emp_survey$Reln_in_workplace)
+emp_survey$Reln_in_workplace <- as.factor(emp_survey$Reln_in_workplace)
+class(emp_survey$Reln_in_workplace)
+
+
+
+#Plotting
+class(emp_survey$Current_Age)
+emp_survey$Current_Age <- as.numeric(emp_survey$Current_Age)
+class(emp_survey$Current_Age)
+hist(emp_survey$Current_Age, main='Current age of employees',col='Red')
+
+class(emp_survey$Gender)
+emp_survey$Gender <- as.numeric(emp_survey$Gender)
+class(emp_survey$Gender)
+hist(emp_survey$Gender, main='Gender of employees', col='Blue')
+
+class(emp_survey$Job_Satis)
+emp_survey$Job_Satis <- as.numeric(emp_survey$Job_Satis)
+class(emp_survey$Job_Satis)
+hist(emp_survey$Job_Satis, main='Job Satisfaction levels', xlab='Satisfaction', ylab='No. of employees', col='Green')
+
+class(emp_survey$Imp_factors)
+emp_survey$Imp_factors <- as.numeric(emp_survey$Imp_factors)
+class(emp_survey$Imp_factors)
+hist(emp_survey$Imp_factors, main='Important job characteristics', xlab='Important factors', ylab='No. of employees', col='Yellow')
+
+class(emp_survey$Exp_in_comp)
+emp_survey$Exp_in_comp <- as.numeric(emp_survey$Exp_in_comp)
+class(emp_survey$Exp_in_comp)
+hist(emp_survey$Exp_in_comp, main='Work experience in current company', xlab='No. of years', ylab='No. of employees', col='Pink')
+
+class(emp_survey$Chances_of_promo)
+emp_survey$Chances_of_promo <- as.numeric(emp_survey$Chances_of_promo)
+class(emp_survey$Chances_of_promo)
+hist(emp_survey$Chances_of_promo, main='Chances of promotion', xlab='Chances of promotion', ylab='No. of employees', col='Gray')
+
+class(emp_survey$Auth_decision)
+emp_survey$Auth_decision <- as.numeric(emp_survey$Auth_decision)
+class(emp_survey$Auth_decision)
+hist(emp_survey$Auth_decision, main='Authority to make decisions', col='Orange')
+
+class(emp_survey$Budget_decision)
+emp_survey$Budget_decision <- as.numeric(emp_survey$Budget_decision)
+class(emp_survey$Budget_decision)
+hist(emp_survey$Budget_decision, main='Participation in budgetary decisions',xlab='Participation(1-Yes ; 2-No)', ylab='No. of employees', col='Purple')
+
+class(emp_survey$Proudness_to_work)
+emp_survey$Proudness_to_work <- as.numeric(emp_survey$Proudness_to_work)
+class(emp_survey$Budget_decision)
+hist(emp_survey$Proudness_to_work, main='Proudness to work in organization', col='Magenta')
+
+class(emp_survey$Likeliness_to_stay)
+emp_survey$Likeliness_to_stay <- as.numeric(emp_survey$Likeliness_to_stay)
+class(emp_survey$Likeliness_to_stay)
+hist(emp_survey$Likeliness_to_stay, main='Chances of turning down another job to stay in organization',xlab='1-Very Likely ; 5-Very Unlikely',ylab='No. of employees',col='Brown')
+
+class(emp_survey$Reln_in_workplace)
+emp_survey$Reln_in_workplace <- as.numeric(emp_survey$Reln_in_workplace)
+class(emp_survey$Reln_in_workplace)
+hist(emp_survey$Reln_in_workplace, main='Relation between coworkers', xlab='1-Very good ; 5-Very bad', ylab='No. of employees', col='Yellowgreen')
+```
+```{r}
+
+#Scatter plots
+plot(emp_survey$Imp_factors,emp_survey$Likeliness_to_stay,main='How important factors relate with likeliness to stay in the organization')
+
+plot(emp_survey$Exp_in_comp,emp_survey$Chances_of_promo,main='How current experience relates with the chances of promotion')
+
+plot(emp_survey$Gender,emp_survey$Auth_decision,main='How Gender is related with the authority to make decisions')
+
+plot(emp_survey$Gender,emp_survey$Budget_decision, main='How Gender is related with the participation is budgetary decisions')
+
+plot(emp_survey$Current_Age,emp_survey$Reln_in_workplace, main='How people of different ages have relations with coworkers')
+
+plot(emp_survey$Job_Satis,emp_survey$Likeliness_to_stay, main='How job satisfaction is related with likeliness to stay in the organization')
+
+plot(emp_survey$Gender,emp_survey$Reln_in_workplace, main='How different Gender have relation with their coworkers')
+
+```
