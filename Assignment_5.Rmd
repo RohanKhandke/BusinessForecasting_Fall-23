@@ -1,0 +1,59 @@
+---
+title: "Assignment_5"
+author: Rohan Nitin Khandke
+output: html_document
+date: "2023-10-27"
+---
+
+```{r}
+
+library(fpp)
+library(fpp2)
+
+library(readxl)
+Spotify_Quarterly_Revenue <- read_excel("Spotify Quarterly Revenue.xlsx")
+View(Spotify_Quarterly_Revenue)  
+
+head(Spotify_Quarterly_Revenue)
+
+ts_data <- ts(Spotify_Quarterly_Revenue$Revenue,start=c(2017,1), frequency=4)
+ts_data
+
+attributes(ts_data)
+
+plot(ts_data)
+
+
+stl_decomp <- stl(ts_data,s.window ="periodic")
+stl_decomp
+plot(stl_decomp)
+attributes(stl_decomp)
+
+
+# Seasonal adjustment
+seasadj(stl_decomp)
+
+
+# Plot a line on the graph
+plot(ts_data)
+lines(seasadj(stl_decomp), col="Red")
+
+
+# Default period forecast
+f_stl <- forecast(stl_decomp)
+f_stl
+plot(f_stl)
+
+# We can pass the # of period
+f_stl <- forecast(stl_decomp,h=15)
+f_stl
+plot(f_stl)
+
+
+#Another way
+decomp_elec <- decompose(ts_data)
+attributes(decomp_elec)
+seasadj(decomp_elec)
+
+
+```
