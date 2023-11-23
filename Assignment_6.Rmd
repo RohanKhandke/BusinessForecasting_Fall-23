@@ -1,0 +1,83 @@
+---
+title: "ARIMA"
+author: Rohan Nitin Khandke
+output: html_document
+date: "2023-11-21"
+---
+
+```{r}
+
+library(fpp)
+library(fpp2)
+library(forecast)
+
+
+#Importing the Dataset
+library(readxl)
+Spotify_Quarterly_Revenue <- read_excel("Spotify Quarterly Revenue.xlsx")
+View(Spotify_Quarterly_Revenue)
+
+
+#Converting the data into Time series
+ts_data <- ts(Spotify_Quarterly_Revenue$Revenue,start=c(2017,1), frequency=4)
+ts_data
+plot(ts_data) 
+##From the graph we can infer that the data is not seasonal as there is no repeating pattern of peaks and valleys from 2017 to 2023. This suggests that the data is being driven by a long-term trend.
+
+
+#Tests to check if series is stationary
+adf.test(ts_data) #p-value is 0.7994 (> 0.05). Hence, differences is required.
+kpss.test(ts_data) #p-value is 0.02 (< 0.01). Hence, differences is required.
+
+
+#To check how much differences is needed
+ndiffs(ts_data) #It determines the order of differencing needed to make a time series stationary.
+
+tsdisplay(ts_data) #Used to create a series of time series plots for diagnostic purposes. These plots include the time series plot, ACF and PACF.
+
+
+tsdiff1 <- diff(ts_data, differences=1) #We take first order differences as indicated by ndiffs function.
+plot(tsdiff1)
+
+tsdisplay(tsdiff1)
+
+
+#To see if more differences is needed
+ndiffs(tsdiff1) #Since, the o/p is zero, it means that the time series data we provided is already stationary.
+adf.test(tsdiff1) #p-value is 0.01 (< 0.05). Hence, differences is not required.
+kpss.test(tsdiff1) #p-value is 0.1 (> 0.01). Hence, differences is not required.
+
+
+#The d part in ARIMA(p,d,q) is 1.
+acf(tsdiff1, lag.max=20)
+Acf(tsdiff1, lag.max=20) #It does not plot a spike at lag0.
+
+Acf(tsdiff1, lag.max=20, plot="False") #To get the autocorrelation values
+
+Pacf(tsdiff1, lag.max=20, plot="False") #To get the partial autocorrelation values
+
+
+auto_fit <- auto.arima(ts_data, trace=TRUE, stepwise = FALSE) #auto_fit will contain the best-fitting ARIMA model based on the specified parameters. When trace is set to TRUE, the function provides detailed output during the model fitting process. When stepwise is set to FALSE, it turns off the stepwise selection procedure.
+auto_fit
+
+attributes(auto_fit)
+
+
+#Forecast for next 5 periods
+forecast(auto_fit,h=5,level=c(99.5))
+
+plot(forecast(auto_fit,h=5,level=c(99.5)))
+
+
+#Residual Analysis
+Acf(auto_fit$residuals)
+Box.test(residuals(auto_fit), lag=20, type="Ljung")
+plot.ts(residuals(auto_fit))
+hist(auto_fit$residuals)
+
+tsdiag(auto_fit) #Create a series of diagnostic plots for the residuals of a time series model
+
+
+accuracy(auto_fit)
+
+```
